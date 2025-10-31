@@ -2,47 +2,18 @@ Service:
   DeployType: ros
   DeployMetadata:
     SupplierDeployMetadata:
+      DeployTimeout: 7200
       ArtifactRelation:
-        centos_7_9_x64_20G_alibase_20240403.vhd:
+        m-mj7bq9tt5n3u9rdvuv6w:
           ArtifactId: ${Artifact.Artifact_1.ArtifactId}
           ArtifactVersion: ${Artifact.Artifact_1.ArtifactVersion}
       SupplierTemplateConfigs:
-        - Name: 单机版
-          Url: ros_templates/template.yaml
+        - Name: 模板1
+          Url: ros_templates/template1.yaml
           PredefinedParameters: []
-          AllowedRegions:
-            - cn-qingdao
-            - cn-beijing
-            - cn-zhangjiakou
-            - cn-huhehaote
-            - cn-wulanchabu
-            - cn-hangzhou
-            - cn-shanghai
-            - cn-shenzhen
-            - cn-heyuan
-            - cn-guangzhou
-            - cn-wuhan-lr
-            - cn-chengdu
-            - cn-hongkong
-            - ap-southeast-1
     TemplateConfigs:
-      - Name: 单机版
-        Url: ros_templates/template.yaml
-        AllowedRegions:
-          - cn-qingdao
-          - cn-beijing
-          - cn-zhangjiakou
-          - cn-huhehaote
-          - cn-wulanchabu
-          - cn-hangzhou
-          - cn-shanghai
-          - cn-shenzhen
-          - cn-heyuan
-          - cn-guangzhou
-          - cn-wuhan-lr
-          - cn-chengdu
-          - cn-hongkong
-          - ap-southeast-1
+      - Name: 模板1
+        Url: ros_templates/template1.yaml
         PredefinedParameters: []
         DeployScene: ECS
         OutputConfigs:
@@ -52,81 +23,25 @@ Service:
       EnablePrivateVpcConnection: false
       EnableReversePrivateVpcConnection: false
     ServiceInstanceNameRule:
-      Prefix: chromadb
       UseDefaultValue: false
   OperationMetadata:
     SupportBackup: false
     PrometheusConfigMap:
-      单机版:
+      模板1:
         EnablePrometheus: false
   ServiceType: private
   ServiceInfo:
     Locale: zh-CN
-    ShortDescription: Chroma 是一个开源的 AI 应用数据库。Chroma 让 LLM 能够轻松构建 LLM 应用，因为它允许 LLM 插入知识、事实和技能。
+    ShortDescription: Active Directory 域服务 (AD DS) 提供用于存储目录数据并使此数据可供网络用户和管理员使用的方法。 例如，AD DS 存储有关用户帐户的信息，例如名称、密码、电话号码等。 AD DS 还为同一网络上的授权用户提供了访问此信息的方法。
     Image: resources/icons/service_logo.png
-    Name: ChromaDB社区版
+    Name: 'Windows Active Directory 域服务快速部署 '
   ShareType: Public
   ApprovalType: Manual
 Artifact:
   Artifact_1:
     ArtifactType: EcsImage
-    ArtifactName: chromadb
-    Description: chromadb
+    ArtifactName: activedirectory
+    Description: activedirectory
     ArtifactProperty:
-      RegionId: ${ImageBuilder.EcsImage.RegionId}
-      ImageId: ${ImageBuilder.EcsImage.SourceImageId}
-ImageBuilder:
-  EcsImage:
-    RegionId: ap-southeast-1
-    SourceImageId: aliyun_3_x64_20G_alibase_20240819.vhd
-    SystemDiskSize: 40
-    InstanceType: ecs.c7.2xlarge
-    InternetMaxBandwidthOut: 100
-    CommandType: RunShellScript
-    Timeout: 10800
-    Tags: [ ]
-    CommandContent: |-
-        #!/bin/bash
-        # 升级基础组件：
-        yum check-update
-        yum -y upgrade --security
-        yum -y upgrade-minimal
-
-        # 安装docker-ce
-        yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-        yum makecache
-        yum install -y curl git docker-ce
-        mkdir -p /etc/docker/
-        echo '{
-          "default-address-pools": [
-              {
-                  "base": "10.255.0.0/16",
-                  "size": 24
-              }
-          ]
-        }' > /etc/docker/daemon.json
-
-        prefixChinaRegion="cn-"
-        region=$(curl -s http://100.100.100.200/latest/meta-data/region-id)
-
-        if [[ ${region} == ${prefixChinaRegion}* && ${region} != "cn-hongkong" ]]; then
-        echo '{
-            "default-address-pools": [
-                {
-                    "base": "10.255.0.0/16",
-                    "size": 24
-                }
-            ],
-            "registry-mirrors": [
-                "https://mirrors-ssl.aliyuncs.com/"
-            ]
-        }' > /etc/docker/daemon.json
-        fi
-
-        sudo systemctl enable --now docker.socket
-        sudo systemctl enable --now docker.service
-      
-        cd /root
-        git clone https://github.com/aliyun-computenest/quickstart-chromaDB.git
-        cd quickstart-chromaDB
-        docker compose up -d
+      ImageId: m-mj7a56zk6xp8ji7j083e
+      RegionId: ap-northeast-2
