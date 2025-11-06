@@ -45,6 +45,17 @@ Active Directory 域服务 (AD DS) 提供用于存储目录数据并使此数据
 
    ![image.png](7.png)
 
+## 新建AD域用户并登录
+
+1. 登录AD域控制器，打开服务管理器 AD DS，右键选择Active Directory 用户和计算机.
+   ![image.png](8.jpg)
+2. 右键选择新建用户.
+   ![image.png](9.png)
+3. 输入用户名和密码完成创建。
+   ![image.png](10.jpg)
+4. 在已加入域的客户端上使用该用户登录(示例使用VNC登录)
+   ![image.png](11.jpg)
+
 # 📚 使用指南
 
 更多用法请参考 AD DS [官网文档](https://learn.microsoft.com/zh-cn/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview)。
